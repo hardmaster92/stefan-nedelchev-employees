@@ -1,0 +1,36 @@
+<div class="container pt-4">
+  <div class="custom-file mb-4">
+    <input type="file" class="custom-file-input" id="textFile" accept=".txt" (change)="onFileChange($event)">
+    <label class="custom-file-label" for="textFile">{{ fileName ? fileName : 'Choose text file' }}</label>
+  </div>
+
+  <p *ngIf="(bestTeam$ | async)">
+    The best team is: Employee <em>{{ (bestTeam$ | async)?.firstEmployeeId }}</em> and
+    <em>Employee {{ (bestTeam$ | async)?.secondEmployeeId }}</em>
+    who've been working together for <strong>{{ (bestTeam$ | async)?.daysWorked }}</strong> days in total!
+  </p>
+  <div class="table-responsive-lg" *ngIf="(teamProjectsToShow$ | async)?.length > 0">
+    <table class="table table-bordered">
+      <thead>
+        <tr class="thead-dark">
+          <th>Employee ID #1</th>
+          <th>Employee ID #2</th>
+          <th>Project ID</th>
+          <th>Days worked</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pair of (teamProjectsToShow$ | async)">
+          <td>{{ pair.firstEmployeeId }}</td>
+          <td>{{ pair.secondEmployeeId }}</td>
+          <td>{{ pair.projectId }}</td>
+          <td>{{ pair.daysWorked }}</td>
+        </tr>
+        <tr>
+          <td colspan="3"></td>
+          <td><strong>Total:</strong> {{ (bestTeam$ | async)?.daysWorked }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
